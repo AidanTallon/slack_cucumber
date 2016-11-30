@@ -27,15 +27,27 @@ class ChannelsPage
   end
 
   def user_active?
-
+    if @browser.i(id: 'presence').class_name.match /(^| )active($| )/
+      return true
+    else
+      return false
+    end
   end
 
   def user_away?
-
+    if @browser.i(id: 'presence').class_name.match /(^| )away($| )/
+      return true
+    else
+      return false
+    end
   end
 
   def user_snoozing?
-
+    if @browser.i(id: 'presence').class_name.match /(^| )dnd($| )/
+      return true
+    else
+      return false
+    end
   end
 
   def set_status(status)
@@ -44,18 +56,29 @@ class ChannelsPage
     status_button = @browser.li(id: 'member_presence').a
     if status == :active
         menu_button.click
-        if status_button.include? 'active'
+        if status_button.include? '[Away] Set yourself to active'
           status_button.click
         end
     elsif status == :away
       menu_button.click
-      if status_button.include? 'away'
+      if status_button.include? 'Set yourself to away'
         status_button.click
       end
     end
   end
 
-  def set_snooze(value, duration=20)
-
+  def set_snooze(value)
+    # value must be true or false
+    if value
+      unless user_snoozing?
+        @browser.div(id: 'ts_tip_float_floater').click
+        @browser.ul(id: 'menu_items').a.click
+      end
+    else
+      if user_snoozing?
+        @browser.div(id: 'ts_tip_float_floater').click
+        @browser.ul(id: 'menu_items').a.click
+    end
   end
+end
 end

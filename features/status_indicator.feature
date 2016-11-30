@@ -7,25 +7,23 @@ Feature: Status Indicator
   @status
   Scenario: I am active
     Given I have set my status to active
-    Then my status circle should be green
-    And my status should be active
+    Then my status should be active
 
   @status
   Scenario: I am away
     Given I have set my status to away
-    Then my status circle should be transparent
-    And my status should be away
+    Then my status should be away
 
   @status
   Scenario: I am active and don't want to be disturbed
     Given I have set my status to active
     And I have set not to be disturbed
-    Then my status circle should be green and sleeping
+    Then my status should be sleeping
     And my status should be active
 
   @status
   Scenario: I am away and don't want to be disturbed
     Given I have set my status to away
     And I have set not to be disturbed
-    Then my status circle should be transparent and sleeping
+    Then my status should be sleeping
     And my status should be away
