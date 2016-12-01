@@ -17,6 +17,7 @@ class ChannelsPage
   end
 
   def logout
+    sleep 5
     confirm_on_page rescue return
     @browser.div(id: 'team_menu').click
     @browser.li(id: 'logout').a.click
@@ -51,17 +52,20 @@ class ChannelsPage
   end
 
   def set_status(status)
+    sleep 5
     # status must be :active or :away
     menu_button = @browser.div(id: 'team_menu')
     status_button = @browser.li(id: 'member_presence').a
     if status == :active
+        return if user_active?
         menu_button.click
-        if status_button.include? '[Away] Set yourself to active'
+        if status_button.text.include? '[Away] Set yourself to active'
           status_button.click
         end
     elsif status == :away
+      return unless user_active?
       menu_button.click
-      if status_button.include? 'Set yourself to away'
+      if status_button.text.include? 'Set yourself to away'
         status_button.click
       end
     end
@@ -69,6 +73,7 @@ class ChannelsPage
 
   def set_snooze(value)
     # value must be true or false
+    binding.pry
     if value
       unless user_snoozing?
         @browser.div(id: 'ts_tip_float_floater').click

@@ -1,7 +1,11 @@
 Given(/^I am logged in$/) do
   sleep 5
-  @login_page.visit
-  @login_page.login(@user['email'], @user['password'])
+  begin
+    @channels_page.confirm_on_page
+  rescue
+    @login_page.visit
+    @login_page.login(@user['email'], @user['password'])
+  end
 end
 
 Given(/^I am on the channels page$/) do
