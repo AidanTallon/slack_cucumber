@@ -15,8 +15,8 @@ class ChannelsPage < Page
   def logout
     # Check if on channel page and log out
     if on_page?
-      wait_until_clickable(@browser.div(id: 'team_menu'))
-      wait_until_clickable(@browser.li(id: 'logout').a)
+      click_when_clickable(@browser.div(id: 'team_menu'))
+      click_when_clickable(@browser.li(id: 'logout').a)
     end
   end
 
@@ -45,15 +45,15 @@ class ChannelsPage < Page
     status_button = @browser.li(id: 'member_presence').a
     if status == :active
       return if user_active?
-      wait_until_clickable(menu_button)
+      click_when_clickable(menu_button)
       if status_button.text.include? '[Away] Set yourself to active'
-        wait_until_clickable status_button
+        click_when_clickable status_button
       end
     elsif status == :away
       return if user_away?
-      wait_until_clickable menu_button
+      click_when_clickable menu_button
       if status_button.text.include? 'Set yourself to away'
-        wait_until_clickable status_button
+        click_when_clickable status_button
       end
     end
   end
