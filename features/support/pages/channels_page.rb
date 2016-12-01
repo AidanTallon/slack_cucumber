@@ -1,12 +1,6 @@
 class ChannelsPage < Page
   attr_accessor :browser, :url
 
-  @@url = 'https://spartaglobal.slack.com/messages/'
-
-  def self.url
-    @@url
-  end
-
   def initialize(browser)
     super
     @url = 'https://spartaglobal.slack.com/messages/'
@@ -18,7 +12,6 @@ class ChannelsPage < Page
   end
 
   def logout
-    #sleep 5
     confirm_on_page rescue return
     wait_until_clickable(@browser.div(id: 'team_menu'))
     wait_until_clickable(@browser.li(id: 'logout').a)
@@ -56,21 +49,18 @@ class ChannelsPage < Page
   end
 
   def set_status(status)
-    #sleep 5
     # status must be :active or :away
     menu_button = @browser.div(id: 'team_menu')
     status_button = @browser.li(id: 'member_presence').a
     if status == :active
       return if user_active?
       wait_until_clickable(menu_button)
-      #sleep 1
       if status_button.text.include? '[Away] Set yourself to active'
         wait_until_clickable status_button
       end
     elsif status == :away
       return if user_away?
       wait_until_clickable menu_button
-      #sleep 1
       if status_button.text.include? 'Set yourself to away'
         wait_until_clickable status_button
       end

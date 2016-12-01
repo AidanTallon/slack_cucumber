@@ -1,24 +1,24 @@
 Given /^I am on the sign in page$/ do
   sleep 5
-  @login_page.visit
+  App.login_page.visit
 end
 
 When /^I enter the correct credentials$/ do
-  @login_page.login(@user['email'], @user['password'])
+  App.login_page.login @user['email'], @user['password']
 end
 
 Then /^I should be signed in$/ do
-  @channels_page.confirm_on_page
-  if @channels_page.user_away?
-    @channels_page.close_dialog_box
+  App.channels_page.confirm_on_page
+  if App.channels_page.user_away?
+    App.channels_page.close_dialog_box
   end
 end
 
 Given /^I enter incorrect credentials$/ do
-  @login_page.set_remember_checkbox false
-  @login_page.set_credentials @user['email'], 'asdab as'
+  App.login_page.set_remember_checkbox false
+  App.login_page.set_credentials @user['email'], 'asdab as'
 end
 
 Then /^I should not be signed in$/ do
-  @login_page.confirm_on_page
+  App.login_page.confirm_on_page
 end

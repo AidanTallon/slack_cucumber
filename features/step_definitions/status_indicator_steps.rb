@@ -1,41 +1,41 @@
 Given(/^I am logged in$/) do
   sleep 5
   begin
-    @channels_page.confirm_on_page
+    App.channels_page.confirm_on_page
   rescue
-    @login_page.visit
-    @login_page.login(@user['email'], @user['password'])
-    if @channels_page.user_away?
-      @channels_page.close_dialog_box
-      @channels_page.set_status :active
+    App.login_page.visit
+    App.login_page.login(@user['email'], @user['password'])
+    if App.channels_page.user_away?
+      App.channels_page.close_dialog_box
+      App.channels_page.set_status :active
     end
   end
 end
 
 Given(/^I am on the channels page$/) do
-  @channels_page.confirm_on_page
+  App.channels_page.confirm_on_page
 end
 
 Given(/^I have set my status to active$/) do
-  @channels_page.set_status :active
+  App.channels_page.set_status :active
 end
 
 Then(/^my status should be active$/) do
-  raise unless @channels_page.user_active?
+  raise unless App.channels_page.user_active?
 end
 
 Given(/^I have set my status to away$/) do
-  @channels_page.set_status :away
+  App.channels_page.set_status :away
 end
 
 Then(/^my status should be away$/) do
-  raise unless @channels_page.user_away?
+  raise unless App.channels_page.user_away?
 end
 
 Given(/^I have set not to be disturbed$/) do
-  @channels_page.set_snooze true
+  App.channels_page.set_snooze true
 end
 
 Then(/^my status should be sleeping$/) do
-  raise unless @channels_page.user_snoozing?
+  raise unless App.channels_page.user_snoozing?
 end
