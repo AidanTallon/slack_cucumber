@@ -15,42 +15,27 @@ class ChannelsPage < Page
   def logout
     # Check if on channel page and log out
     if on_page?
-      wait_until_clickable(@browser.div(id: 'team_menu'))
-      wait_until_clickable(@browser.li(id: 'logout').a)
+      click_when_clickable(@browser.div(id: 'team_menu'))
+      click_when_clickable(@browser.li(id: 'logout').a)
     end
   end
 
   def user_active?
     # Returns true if user state is active
-    # TODO: Alternative to sleep
-    sleep 5
-    if @browser.i(id: 'presence').class_name.match /(^| )active($| )/
-      return true
-    else
-      return false
-    end
+    # TODO: Neater option of converting to true value
+    return !!(Watir::Wait.until { @browser.i(id: 'presence').class_name =~ /(^| )active($| )/ }) rescue return false
   end
 
   def user_away?
     # Returns false if user state is away
-    # TODO: Alternative to sleep
-    sleep 5
-    if @browser.i(id: 'presence').class_name.match /(^| )away($| )/
-      return true
-    else
-      return false
-    end
+    # TODO: Neater option of converting to true value
+    return !!(Watir::Wait.until { @browser.i(id: 'presence').class_name =~ /(^| )away($| )/ }) rescue return false
   end
 
   def user_snoozing?
     # Returns false if user is set to 'don't disturb'
-    # TODO: Alternative to sleep
-    sleep 5
-    if @browser.i(id: 'presence').class_name.match /(^| )dnd($| )/
-      return true
-    else
-      return false
-    end
+    # TODO: Neater option of converting to true value
+    return !!(Watir::Wait.until { @browser.i(id: 'presence').class_name =~ /(^| )dnd($| )/ }) rescue return false
   end
 
   def set_status(status)
@@ -60,15 +45,15 @@ class ChannelsPage < Page
     status_button = @browser.li(id: 'member_presence').a
     if status == :active
       return if user_active?
-      wait_until_clickable(menu_button)
+      click_when_clickable(menu_button)
       if status_button.text.include? '[Away] Set yourself to active'
-        wait_until_clickable status_button
+        click_when_clickable status_button
       end
     elsif status == :away
       return if user_away?
-      wait_until_clickable menu_button
+      click_when_clickable menu_button
       if status_button.text.include? 'Set yourself to away'
-        wait_until_clickable status_button
+        click_when_clickable status_button
       end
     end
   end
@@ -91,9 +76,10 @@ class ChannelsPage < Page
 
   def close_dialog_box
     # Checks for generic_dialog box and closes it
+    # TODO: Get rid of sleep
     if dialog_box?
       @browser.div(id: 'generic_dialog').button(class: 'close').click
-      sleep 5
+      Watir::Wait.while(timeout: 10) { @browser.div(id: 'generic_dialog').present? }
     end
   end
 
