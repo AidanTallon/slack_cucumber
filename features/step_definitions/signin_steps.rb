@@ -9,6 +9,9 @@ end
 
 Then /^I should be signed in$/ do
   @channels_page.confirm_on_page
+  if @channels_page.user_away?
+    @channels_page.close_dialog_box
+  end
 end
 
 Given /^I enter incorrect credentials$/ do

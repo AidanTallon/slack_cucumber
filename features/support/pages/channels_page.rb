@@ -19,7 +19,6 @@ class ChannelsPage < Page
 
   def logout
     sleep 5
-    close_dialog_box
     confirm_on_page rescue return
     @browser.div(id: 'team_menu').click
     @browser.li(id: 'logout').a.click
@@ -30,6 +29,7 @@ class ChannelsPage < Page
   end
 
   def user_active?
+    sleep 1
     if @browser.i(id: 'presence').class_name.match /(^| )active($| )/
       return true
     else
@@ -38,6 +38,7 @@ class ChannelsPage < Page
   end
 
   def user_away?
+    sleep 1
     if @browser.i(id: 'presence').class_name.match /(^| )away($| )/
       return true
     else
@@ -46,6 +47,7 @@ class ChannelsPage < Page
   end
 
   def user_snoozing?
+    sleep 1
     if @browser.i(id: 'presence').class_name.match /(^| )dnd($| )/
       return true
     else
@@ -56,18 +58,19 @@ class ChannelsPage < Page
   def set_status(status)
     sleep 5
     # status must be :active or :away
-    close_dialog_box
     menu_button = @browser.div(id: 'team_menu')
     status_button = @browser.li(id: 'member_presence').a
     if status == :active
-        return if user_active?
-        menu_button.click
-        if status_button.text.include? '[Away] Set yourself to active'
-          status_button.click
-        end
-    elsif status == :away
-      return unless user_active?
+      return if user_active?
       menu_button.click
+      sleep 1
+      if status_button.text.include? '[Away] Set yourself to active'
+        status_button.click
+      end
+    elsif status == :away
+      return if user_away?
+      menu_button.click
+      sleep 1
       if status_button.text.include? 'Set yourself to away'
         status_button.click
       end
@@ -76,7 +79,6 @@ class ChannelsPage < Page
 
   def set_snooze(value)
     # value must be true or false
-    close_dialog_box
     if value
       unless user_snoozing?
         @browser.div(id: 'ts_tip_float_floater').click

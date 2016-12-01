@@ -5,6 +5,10 @@ Given(/^I am logged in$/) do
   rescue
     @login_page.visit
     @login_page.login(@user['email'], @user['password'])
+    if @channels_page.user_away?
+      @channels_page.close_dialog_box
+      @channels_page.set_status :active
+    end
   end
 end
 
