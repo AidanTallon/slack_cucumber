@@ -1,5 +1,5 @@
-class ChannelsPage
-  attr_accessor :browser
+class ChannelsPage < Page
+  attr_accessor :browser, :url
 
   @@url = 'https://spartaglobal.slack.com/messages/'
 
@@ -8,7 +8,8 @@ class ChannelsPage
   end
 
   def initialize(browser)
-    @browser = browser
+    super
+    @url = 'https://spartaglobal.slack.com/messages/'
   end
 
   def visit
@@ -18,6 +19,7 @@ class ChannelsPage
 
   def logout
     sleep 5
+    close_dialog_box
     confirm_on_page rescue return
     @browser.div(id: 'team_menu').click
     @browser.li(id: 'logout').a.click
@@ -54,6 +56,7 @@ class ChannelsPage
   def set_status(status)
     sleep 5
     # status must be :active or :away
+    close_dialog_box
     menu_button = @browser.div(id: 'team_menu')
     status_button = @browser.li(id: 'member_presence').a
     if status == :active
@@ -73,7 +76,7 @@ class ChannelsPage
 
   def set_snooze(value)
     # value must be true or false
-    binding.pry
+    close_dialog_box
     if value
       unless user_snoozing?
         @browser.div(id: 'ts_tip_float_floater').click
@@ -83,7 +86,23 @@ class ChannelsPage
       if user_snoozing?
         @browser.div(id: 'ts_tip_float_floater').click
         @browser.ul(id: 'menu_items').a.click
+      end
     end
   end
-end
+
+  def close_dialog_box
+    if dialog_box?
+      @browser.div(id: 'generic_dialog').button(class: 'close').click
+      sleep 5
+    end
+  end
+
+  def dialog_box?
+    begin
+      @browser.div(id: 'generic_dialog').wait_until_present(10)
+      return true
+    rescue
+      return false
+    end
+  end
 end

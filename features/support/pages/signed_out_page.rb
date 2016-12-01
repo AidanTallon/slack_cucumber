@@ -1,14 +1,9 @@
-class SignedOutPage
-  attr_accessor :browser
-
-  @@url = 'https://spartaglobal.slack.com/signout/done'
-
-  def self.url
-    @@url
-  end
+class SignedOutPage < Page
+  attr_accessor :browser, :url
 
   def initialize(browser)
-    @browser = browser
+    super
+    @url = 'https://spartaglobal.slack.com/signout/done'
   end
 
   def visit

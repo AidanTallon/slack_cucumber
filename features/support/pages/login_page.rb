@@ -1,19 +1,9 @@
-class LoginPage
-  attr_accessor :browser
-
-  @@url = 'https://spartaglobal.slack.com/'
-
-  def self.url
-    @@url
-  end
+class LoginPage < Page
+  attr_accessor :browser, :url
 
   def initialize(browser)
-    @browser = browser
-  end
-
-  def visit
-    @browser.goto @@url
-    confirm_on_page
+    super
+    @url = 'https://spartaglobal.slack.com/'
   end
 
   def confirm_on_page
