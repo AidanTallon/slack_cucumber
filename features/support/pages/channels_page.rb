@@ -22,35 +22,20 @@ class ChannelsPage < Page
 
   def user_active?
     # Returns true if user state is active
-    # TODO: Alternative to sleep
-    sleep 5
-    if @browser.i(id: 'presence').class_name.match /(^| )active($| )/
-      return true
-    else
-      return false
-    end
+    # TODO: Neater option of converting to true value
+    return !!(Watir::Wait.until { @browser.i(id: 'presence').class_name =~ /(^| )active($| )/ }) rescue return false
   end
 
   def user_away?
     # Returns false if user state is away
-    # TODO: Alternative to sleep
-    sleep 5
-    if @browser.i(id: 'presence').class_name.match /(^| )away($| )/
-      return true
-    else
-      return false
-    end
+    # TODO: Neater option of converting to true value
+    return !!(Watir::Wait.until { @browser.i(id: 'presence').class_name =~ /(^| )away($| )/ }) rescue return false
   end
 
   def user_snoozing?
     # Returns false if user is set to 'don't disturb'
-    # TODO: Alternative to sleep
-    sleep 5
-    if @browser.i(id: 'presence').class_name.match /(^| )dnd($| )/
-      return true
-    else
-      return false
-    end
+    # TODO: Neater option of converting to true value
+    return !!(Watir::Wait.until { @browser.i(id: 'presence').class_name =~ /(^| )dnd($| )/ }) rescue return false
   end
 
   def set_status(status)
@@ -91,9 +76,10 @@ class ChannelsPage < Page
 
   def close_dialog_box
     # Checks for generic_dialog box and closes it
+    # TODO: Get rid of sleep
     if dialog_box?
       @browser.div(id: 'generic_dialog').button(class: 'close').click
-      sleep 5
+      Watir::Wait.while(timeout: 10) { @browser.div(id: 'generic_dialog').present? }
     end
   end
 

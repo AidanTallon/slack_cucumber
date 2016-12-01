@@ -15,7 +15,7 @@ def wait_until_clickable(element, countdown=5)
   rescue
     countdown -= 1
     if countdown <= 0
-      raise
+      raise 'Element did not become clickable.'
     else
       sleep 1
       wait_until_clickable(element, countdown)
