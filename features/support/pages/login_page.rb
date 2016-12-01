@@ -1,3 +1,4 @@
+# Slack login page where you are prompted for email and password
 class LoginPage < Page
   attr_accessor :browser, :url
 
@@ -7,18 +8,13 @@ class LoginPage < Page
   end
 
   def trait
+    # Trait unique to page
     @browser.button(id: 'signin_btn')
-  end
-
-  def confirm_on_page
-    # Deprecated
-    puts "Don't use login_page.confirm_on_page use on_page? instead"
-    Watir::Wait.until(timeout: 10) { @browser.button(id: 'signin_btn').present? }
-    Watir::Wait.until(timeout: 10) { @browser.h1(id: 'signin_header').span(text: 'spartaglobal.slack.com').present? }
   end
 
   def login(email, password, remember_me = false)
     # Log in as user
+    # remember_me sets remember me checkbox on site
     set_remember_checkbox remember_me
     set_credentials email, password
   end
