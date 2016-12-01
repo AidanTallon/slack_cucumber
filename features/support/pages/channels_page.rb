@@ -29,7 +29,7 @@ class ChannelsPage < Page
   end
 
   def user_active?
-    sleep 1
+    sleep 5
     if @browser.i(id: 'presence').class_name.match /(^| )active($| )/
       return true
     else
@@ -38,7 +38,7 @@ class ChannelsPage < Page
   end
 
   def user_away?
-    sleep 1
+    sleep 5
     if @browser.i(id: 'presence').class_name.match /(^| )away($| )/
       return true
     else
@@ -47,7 +47,7 @@ class ChannelsPage < Page
   end
 
   def user_snoozing?
-    sleep 1
+    sleep 5
     if @browser.i(id: 'presence').class_name.match /(^| )dnd($| )/
       return true
     else
