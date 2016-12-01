@@ -18,10 +18,10 @@ class ChannelsPage < Page
   end
 
   def logout
-    sleep 5
+    #sleep 5
     confirm_on_page rescue return
-    @browser.div(id: 'team_menu').click
-    @browser.li(id: 'logout').a.click
+    wait_until_clickable(@browser.div(id: 'team_menu'))
+    wait_until_clickable(@browser.li(id: 'logout').a)
   end
 
   def confirm_on_page
@@ -56,23 +56,23 @@ class ChannelsPage < Page
   end
 
   def set_status(status)
-    sleep 5
+    #sleep 5
     # status must be :active or :away
     menu_button = @browser.div(id: 'team_menu')
     status_button = @browser.li(id: 'member_presence').a
     if status == :active
       return if user_active?
-      menu_button.click
-      sleep 1
+      wait_until_clickable(menu_button)
+      #sleep 1
       if status_button.text.include? '[Away] Set yourself to active'
-        status_button.click
+        wait_until_clickable status_button
       end
     elsif status == :away
       return if user_away?
-      menu_button.click
-      sleep 1
+      wait_until_clickable menu_button
+      #sleep 1
       if status_button.text.include? 'Set yourself to away'
-        status_button.click
+        wait_until_clickable status_button
       end
     end
   end
