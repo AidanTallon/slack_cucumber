@@ -6,19 +6,20 @@ class ChannelsPage < Page
     @url = 'https://spartaglobal.slack.com/messages/'
   end
 
-  def visit
-    @browser.goto @@url
-    confirm_on_page
+  def trait
+    @browser.div(id: 'team_menu')
   end
 
   def logout
-    confirm_on_page rescue return
-    wait_until_clickable(@browser.div(id: 'team_menu'))
-    wait_until_clickable(@browser.li(id: 'logout').a)
+    if on_page?
+      wait_until_clickable(@browser.div(id: 'team_menu'))
+      wait_until_clickable(@browser.li(id: 'logout').a)
+    end
   end
 
   def confirm_on_page
-    @browser.div(id: 'team_menu').wait_until_present(15)
+    puts 'Don\'t use channels_page.confirm_on_page you doink'
+    Watir::Wait.until(timeout: 10) { @browser.div(id: 'team_menu').present? }
   end
 
   def user_active?
@@ -91,7 +92,7 @@ class ChannelsPage < Page
 
   def dialog_box?
     begin
-      @browser.div(id: 'generic_dialog').wait_until_present(10)
+      Watir::Wait.until(timeout: 10) { @browser.div(id: 'generic_dialog').present? }
       return true
     rescue
       return false

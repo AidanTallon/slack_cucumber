@@ -6,9 +6,15 @@ class LoginPage < Page
     @url = 'https://spartaglobal.slack.com/'
   end
 
+  def trait
+    @browser.button(id: 'signin_btn')
+  end
+
   def confirm_on_page
-    @browser.button(id: 'signin_btn').wait_until_present(15)
-    @browser.h1(id: 'signin_header').span(text: 'spartaglobal.slack.com').wait_until_present(15)
+    # Deprecated
+    puts "Don't use login_page.confirm_on_page use on_page? instead"
+    Watir::Wait.until(timeout: 10) { @browser.button(id: 'signin_btn').present? }
+    Watir::Wait.until(timeout: 10) { @browser.h1(id: 'signin_header').span(text: 'spartaglobal.slack.com').present? }
   end
 
   def login(email, password, remember_me = false)

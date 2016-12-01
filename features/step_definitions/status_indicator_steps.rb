@@ -1,8 +1,5 @@
 Given(/^I am logged in$/) do
-  sleep 5
-  begin
-    App.channels_page.confirm_on_page
-  rescue
+  unless App.channels_page.on_page?
     App.login_page.visit
     App.login_page.login(@user['email'], @user['password'])
     if App.channels_page.user_away?
@@ -13,7 +10,7 @@ Given(/^I am logged in$/) do
 end
 
 Given(/^I am on the channels page$/) do
-  App.channels_page.confirm_on_page
+  raise unless App.channels_page.on_page?
 end
 
 Given(/^I have set my status to active$/) do

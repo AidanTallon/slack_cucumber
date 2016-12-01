@@ -2,15 +2,21 @@ class Page
   attr_accessor :browser, :url
 
   def initialize(browser)
+    raise 'Page should not be instantiated' if self.class == Page
     @browser = browser
   end
 
   def visit
     @browser.goto @url
-    confirm_on_page
+    raise unless on_page?
   end
 
-  def confirm_on_page
-    raise 'Method not defined in class'
+  def on_page?
+    begin
+      Watir::Wait.until { trait.present? }
+      return true
+    rescue
+      return false
+    end
   end
 end

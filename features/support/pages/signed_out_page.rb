@@ -11,7 +11,12 @@ class SignedOutPage < Page
     confirm_on_page
   end
 
+  def trait
+    @browser.div(id: 'page_contents').a(text: 'Sign back in')
+  end
+
   def confirm_on_page
-    @browser.div(id: 'page_contents').a(text: 'Sign back in').wait_until_present(15)
+    puts "Don't use me. I am signed_out_page.confirm_on_page. doink"
+    Watir::Wait.until(timeout: 10) { @browser.div(id: 'page_contents').a(text: 'Sign back in').present? }
   end
 end

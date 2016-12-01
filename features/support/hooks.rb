@@ -1,13 +1,12 @@
-Before('@signin') do
+Before do
   @user = USER_DATA['atallon@spartaglobal.co']
 end
 
 After('@signin') do
-  App.channels_page.logout
-end
-
-Before('@status') do
-  @user = USER_DATA['atallon@spartaglobal.co']
+  if App.channels_page.on_page?
+    App.channels_page.logout
+    raise unless App.signed_out_page.on_page?
+  end
 end
 
 After('@status') do

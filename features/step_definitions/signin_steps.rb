@@ -1,5 +1,4 @@
 Given /^I am on the sign in page$/ do
-  sleep 5
   App.login_page.visit
 end
 
@@ -8,7 +7,7 @@ When /^I enter the correct credentials$/ do
 end
 
 Then /^I should be signed in$/ do
-  App.channels_page.confirm_on_page
+  raise unless App.channels_page.on_page?
   if App.channels_page.user_away?
     App.channels_page.close_dialog_box
   end
@@ -20,5 +19,5 @@ Given /^I enter incorrect credentials$/ do
 end
 
 Then /^I should not be signed in$/ do
-  App.login_page.confirm_on_page
+  raise unless App.login_page.on_page?
 end
