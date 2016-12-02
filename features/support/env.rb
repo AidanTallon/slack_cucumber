@@ -15,16 +15,19 @@ end
 # TODO: Nicer way of before all hook
 BEFORE_ALL_HACK = true
 
-def click_when_clickable(element, countdown=5)
+# Clicks element every second, raises an error on timeout
+# Some elements appear to be present before they are clickable
+# TODO: Native Watir way of achieving this
+def click_when_clickable(element, timeout=5)
   begin
     element.click
   rescue
-    countdown -= 1
-    if countdown <= 0
+    timeout -= 1
+    if timeout <= 0
       raise 'Element did not become clickable.'
     else
       sleep 1
-      click_when_clickable(element, countdown)
+      click_when_clickable(element, timeout)
     end
   end
 end
