@@ -79,14 +79,14 @@ class ChannelsPage < Page
     # TODO: Get rid of sleep
     if dialog_box?
       @browser.div(id: 'generic_dialog').button(class: 'close').click
-      Watir::Wait.while(timeout: 10) { @browser.div(id: 'generic_dialog').present? }
+      Watir::Wait.while { @browser.div(id: 'generic_dialog').present? }
     end
   end
 
   def dialog_box?
     # Checks for generic_dialog box
     begin
-      Watir::Wait.until(timeout: 10) { @browser.div(id: 'generic_dialog').present? }
+      Watir::Wait.until { @browser.div(id: 'generic_dialog').present? }
       return true
     rescue
       return false
