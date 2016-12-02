@@ -4,12 +4,12 @@ Feature: Status Indicator
     Given I am logged in
     And I am on the channels page
 
-  @status @wip
+  @status
   Scenario: I am active
     Given I have set my status to active
     Then my status should be active
 
-  @status @wip
+  @status
   Scenario: I am away
     Given I have set my status to away
     Then my status should be away
