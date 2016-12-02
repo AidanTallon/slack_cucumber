@@ -63,12 +63,12 @@ class ChannelsPage < Page
     # Sets whether user is accepting notifications
     if value
       unless user_snoozing?
-        @browser.div(id: 'ts_tip_float_floater').click
+        @browser.div(id: 'team_menu').button(class: 'ts_tip_float').click
         @browser.ul(id: 'menu_items').a.click
       end
     else
       if user_snoozing?
-        @browser.div(id: 'ts_tip_float_floater').click
+        @browser.div(id: 'team_menu').button(class: 'ts_tip_float').click
         @browser.ul(id: 'menu_items').a.click
       end
     end

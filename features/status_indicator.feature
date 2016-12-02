@@ -14,14 +14,14 @@ Feature: Status Indicator
     Given I have set my status to away
     Then my status should be away
 
-  @status @wip
+  @status
   Scenario: I am active and don't want to be disturbed
     Given I have set my status to active
     And I have set not to be disturbed
     Then my status should be sleeping
     And my status should be active
 
-  @status @wip
+  @status
   Scenario: I am away and don't want to be disturbed
     Given I have set my status to away
     And I have set not to be disturbed

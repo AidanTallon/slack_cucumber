@@ -5,11 +5,12 @@ Before do
     STDOUT.write "Setting default state of user. Should only happen at start of tests.\n"
     STDOUT.write "...\n"
     @user = USER_DATA['atallon@spartaglobal.co']
-    # Login and set user status to active, then logout
+    # Login and set user status to active and not asleep, then logout
     App.login_page.visit
     App.login_page.login @user['email'], @user['password']
     App.channels_page.close_dialog_box
     App.channels_page.set_status :active
+    App.channels_page.set_snooze false
     App.channels_page.logout
     raise unless App.signed_out_page.on_page?
     BEFORE_ALL_HACK = false
